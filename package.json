@@ -1,0 +1,23 @@
+{
+  "name": "slack_zork",
+  "version": "0.0.0",
+  "description": "Slack bot for playing zork",
+  "main": "app.js",
+  "engines": {
+    "node": ">=6.0"
+  },
+  "private": true,
+  "scripts": {
+    "pretest": "eslint app.js test/**/*.js routes/**/*.js",
+    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "frotz-interfacer": "^1.2.0",
+    "morgan": "~1.7.0",
+    "q": "^1.4.1"
+  }
+}
