@@ -7,12 +7,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const debug = require('debug')('slack_zork:server');
 
-/*
- *const DFrotzInterface = require('frotz-interfacer');
- *const frotz = new DFrotzInterface({
- *  saveFile: 'zork.sav'
- *});
- */
+const DFrotzInterface = require('frotz-interfacer');
 
 const app = express();
 
@@ -31,7 +26,7 @@ app.post('/', (req, res) => {
 	let token;
 
 	try {
-		token = fs.readFileSync('token');
+		token = fs.readFileSync('token').toString();
 	} catch (e) {
 		debug(e);
 		res.status(403).send('Please initialize by POST-ing to /init');
@@ -56,11 +51,21 @@ app.post('/', (req, res) => {
 	if (token !== req.body.token) {
 		res.status(401).send('Invalid token');
 	} else {
-		//let text = req.body.text.split(':')[0];
+		const frotz = new DFrotzInterface({
+		  saveFile: 'zork.sav'
+		});
 
-		// TODO run frotz iteration
+		let text = req.body.text.split(':')[0].trim();
 
-		res.send(req.body);
+		frotz.iteration(text, (err, op) => {
+			debug(err, op);
+
+			if (err.error || err.stderr) {
+				res.send(err);
+			} else {
+				res.send(op.pretty);
+			}
+		});
 	}
 
 });
