@@ -63,7 +63,9 @@ app.post('/', (req, res) => {
 			if (err.error || err.stderr) {
 				res.send(err);
 			} else {
-				res.send(op.pretty.join('\n'));
+				res.send({
+					text: op.pretty.join('\n')
+				});
 			}
 		});
 	}
