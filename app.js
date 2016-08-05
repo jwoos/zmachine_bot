@@ -55,7 +55,7 @@ app.post('/', (req, res) => {
 		  saveFile: 'zork.sav'
 		});
 
-		let text = req.body.text.split(':')[0].trim();
+		let text = req.body.text.split(':')[1].trim();
 
 		frotz.iteration(text, (err, op) => {
 			debug(err, op);
@@ -63,7 +63,7 @@ app.post('/', (req, res) => {
 			if (err.error || err.stderr) {
 				res.send(err);
 			} else {
-				res.send(op.pretty);
+				res.send(op.pretty.join('\n'));
 			}
 		});
 	}
