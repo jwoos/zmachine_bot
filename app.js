@@ -11,6 +11,8 @@ const DFrotzInterface = require('frotz-interfacer');
 
 const app = express();
 
+const token = process.env['SLACK_APP_TOKEN'];
+
 app.disable('x-powered-by');
 
 app.use(logger('dev'));
@@ -23,14 +25,6 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
 	debug(req.body);
-	let token;
-
-	try {
-		token = fs.readFileSync('token').toString();
-	} catch (e) {
-		debug(e);
-		res.status(403).send('Please initialize by POST-ing to /init');
-	}
 
 	/*
 	 * data returned by slack
@@ -68,25 +62,6 @@ app.post('/', (req, res) => {
 				});
 			}
 		});
-	}
-
-});
-
-app.post('/init', (req, res) => {
-	debug(req.body);
-
-	if (!req.body.token) {
-		res.status(400).send('Required field is missing.');
-	} else {
-		try {
-			fs.statSync('./token');
-			res.status(409).send('Exists');
-		} catch (e) {
-			debug(e);
-
-			fs.writeFileSync('./token', req.body.token);
-			res.send('Created');
-		}
 	}
 
 });

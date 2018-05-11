@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "body-parser": "~1.15.1",
-    "express": "~4.13.4",
+    "express": "^4.16.0",
     "frotz-interfacer": "^1.2.0",
     "morgan": "~1.7.0",
     "q": "^1.4.1"
